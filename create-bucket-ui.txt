@@ -1,0 +1,54 @@
+#!/bin/sh
+
+# השתמש ב-Bash כדי להריץ את הסקריפט
+/bin/bash -c '
+   
+   # היכנס לתיקיית העבודה של Jenkins
+   cd /var/lib/jenkins/workspace/create-bucket/
+   
+   # צור קובץ requirements.txt עם התלויות הנדרשות
+   echo "boto3==1.26.1" > requirements.txt
+   echo "click==8.1.3" >> requirements.txt
+   
+   # צור סביבה וירטואלית חדשה בתיקיית העבודה
+   python3 -m venv myenv
+   
+   # הפעל את הסביבה הוירטואלית
+   source myenv/bin/activate
+   
+   # התקן את התלויות מהקובץ requirements.txt
+   pip install -r requirements.txt
+   
+   # יצירת תיקיית .aws אם לא קיימת
+   mkdir -p /var/lib/jenkins/.aws
+   
+   # יצירת קובץ config עם פרטי ההגדרה
+   echo "[default]" > /var/lib/jenkins/.aws/config
+   echo "region = us-east-1" >> /var/lib/jenkins/.aws/config
+
+   # העתקת הסקריפט
+   sudo cp /home/ubuntu/main.py .
+   
+export AWS_ACCESS_KEY_ID=<YOUR_ACCESS_KEY_ID>
+export AWS_SECRET_ACCESS_KEY=<YOUR_SECRET_ACCESS_KEY>
+export AWS_REGION=<YOUR_REGION>
+
+   # הגדרת פרמטרים לביצוע הסקריפט
+   if [ "${state}" = "public" ]; then
+     state_param="--public"
+   else
+     state_param="--private"
+   fi
+	 # הצגת פרמטרים למעקב שגיאות
+   echo "bucket name: ${bucket_name}"
+   echo "state: ${state}"
+   echo "finel state: ${state_param}" 
+    
+    
+   # הרץ את הסקריפט עם הפרמטרים לפי ערך ה-state
+   if [ "${state}" = "public" ]; then
+     yes | python3 ./main.py create-bucket ${bucket_name} ${state_param}
+   else
+     python3 ./main.py create-bucket ${bucket_name} ${state_param}
+   fi
+   '
