@@ -1,61 +1,58 @@
-# Platform Engineering Python Exercise: Automating AWS Resource Provisioning
+# AWS Resource Provisioning CLI
 
 ## Overview
-You've just joined a new company as a junior DevOps engineer. Your team's key responsibility is provisioning AWS resources for various development projects, such as EC2 instances, S3 buckets, and Route53 DNS records. To streamline this process and empower developers, you'll develop a Python-based Command Line Interface (CLI) tool that allows them to create, update, and manage AWS resources while ensuring compliance with established DevOps standards.
 
-## Table of Contents
-1. [Scenario](#scenario)
-2. [Your Task](#your-task)
-3. [Phase 1: Core CLI Development](#phase-1-core-cli-development)
-   - [EC2 Instances](#ec2-instances)
-   - [S3 Buckets](#s3-buckets)
-   - [Route53](#route53)
-   - [CLI Requirements](#cli-requirements)
-4. [Phase 2: Bonus Challenge – Adding a UI](#phase-2-bonus-challenge--adding-a-ui)
+This CLI tool allows developers to automate the provisioning of AWS resources such as EC2 instances, S3 buckets, and Route53 DNS records. It aims to provide a self-service mechanism while adhering to strict DevOps standards.
 
-## Scenario
-As a new member of the DevOps team, your role includes provisioning AWS resources for developers. Currently, developers rely on you to create resources, but you want to introduce a platform engineering approach that allows them to provision resources themselves, within the guidelines set by your team.
-
-## Your Task
-You will develop a Python-based CLI tool that enables developers to create and manage AWS resources while adhering to your team's standards.
-
----
-
-## Phase 1: Core CLI Development
+## Features
 
 ### EC2 Instances
-- **Create**: Allow the creation of a new EC2 instance with options to choose between two small instance types (t3.nano and t4g.nano). Limit the creation to a maximum of two running instances.
-- **AMI Choice**: Let developers select between the latest Ubuntu AMI or the latest Amazon Linux AMI.
-- **Manage Instances**: Enable starting and stopping EC2 instances, but only if they were created through the CLI.
-- **List Instances**: Provide a list of all EC2 instances created through the CLI, excluding those created by others.
+- **Create**: Launch a new EC2 instance with options for instance types (`t3.nano`, `t4g.nano`) and AMI selection (latest Ubuntu or Amazon Linux).
+- **Manage Instances**: Start and stop instances created via this CLI.
+- **List Instances**: View all EC2 instances created through the CLI.
 
 ### S3 Buckets
-- **Create**: Enable the creation of new S3 buckets, with options for public and private access.
-- **Confirmation for Public Buckets**: If public access is chosen, request additional approval from the user: "Are you sure?".
-- **File Upload**: Allow developers to upload files to an S3 bucket only if the bucket was created through the CLI.
-- **List Buckets**: Provide a list of all S3 buckets created by the CLI.
+- **Create**: Create S3 buckets with public or private access.
+- **Confirmation for Public Buckets**: Requires user confirmation for public access.
+- **File Upload**: Upload files to buckets created through the CLI.
+- **List Buckets**: List all S3 buckets created via the CLI.
 
 ### Route53
-- **Create Zones**: Allow the creation of DNS zones via Route53.
-- **Manage DNS Records**: Enable developers to create, update, or delete DNS records, but only for zones created through the CLI.
+- **Create Zones**: Create DNS zones in Route53.
+- **Manage DNS Records**: Add, update, or delete DNS records for zones created via the CLI.
 
-### CLI Requirements
-- The CLI should accept resource type, action (create, update, delete), and any required parameters.
-- The CLI should provide clear output indicating the success or failure of the operation and the current status of the resource.
+## Usage
 
----
+```bash
+# Install Dependencies
+pip install boto3 click
 
-## Phase 2: Bonus Challenge – Adding a UI
-For an extra challenge, integrate your Python CLI tool with an open-source tool like Jenkins to provide a user interface (UI). Each resource and action can be implemented as a different screen or job in Jenkins, providing a more accessible platform for developers to use.
+# Run the CLI
+python your_cli_script.py
 
----
+# Commands
+# Check the tool
+python your_cli_script.py check
 
-## Getting Started
-1. **Prerequisites**:
-   - Python 3.x
-   - Boto3 (AWS SDK for Python)
-   - Click (for CLI creation)
-   
-2. **Installation**:
-   ```bash
-   pip install boto3 click
+# Create EC2 Instance
+python your_cli_script.py create <instance_type> <ami>
+
+# List EC2 Instances
+python your_cli_script.py list
+
+# Create S3 Bucket
+python your_cli_script.py create_bucket <bucket_name> --public
+
+# Upload File to S3 Bucket
+python your_cli_script.py upload_file <bucket_name> <file_path>
+
+# Create DNS Zone
+python your_cli_script.py create_dns_zone <domain_name>
+
+# Manage DNS Records
+python your_cli_script.py manage_dns_record <domain_name> <record_name> <record_type> <record_value> <action>
+
+
+# Bonus Challenge
+For an additional challenge, consider integrating this CLI tool with an open-source tool like Jenkins to provide a user-friendly UI.
+ן ש
