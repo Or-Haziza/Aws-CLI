@@ -53,6 +53,6 @@ python your_cli_script.py create_dns_zone <domain_name>
 python your_cli_script.py manage_dns_record <domain_name> <record_name> <record_type> <record_value> <action>
 
 
-# Bonus Challenge
+### Bonus Challenge
 For an additional challenge, consider integrating this CLI tool with an open-source tool like Jenkins to provide a user-friendly UI.
 ן ש
